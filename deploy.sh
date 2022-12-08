@@ -27,7 +27,7 @@ CLOUDWATCH_POLICY=$(aws iam create-policy --policy-name cloudwatch-policy-${FUNC
 
 # Create role with trust document
 EXECUTION_ROLE=$(aws iam create-role --role-name lambda-execution-role-${FUNCTION_NAME} \
---assume-role-policy-document file://deployment/trust_policy.json | jq .Role.Arn | tr -d '"')
+--assume-role-policy-document file://trust.json | jq .Role.Arn | tr -d '"')
 echo ${EXECUTION_ROLE}
 
 sleep 10
