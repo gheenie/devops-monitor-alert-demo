@@ -17,7 +17,7 @@ def test_lambda_logs_message_if_number_is_a_multiple_of_five(caplog):
         except MultipleOfFiveError:
             with caplog.at_level(logging.INFO):
                 assert ('Oh no 25 is divisible by 5'
-                    in caplog.text)
+                        in caplog.text)
 
 
 def test_lambda_logs_message_if_number_not_a_multiple_of_five(caplog):
@@ -25,4 +25,4 @@ def test_lambda_logs_message_if_number_not_a_multiple_of_five(caplog):
         with caplog.at_level(logging.INFO):
             lambda_handler({}, {})
             assert ('Yawn. 29 is a pretty boring number'
-                in caplog.text)
+                    in caplog.text)
