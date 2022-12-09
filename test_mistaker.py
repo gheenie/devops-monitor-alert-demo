@@ -14,6 +14,7 @@ def test_lambda_logs_message_if_number_is_a_multiple_of_five(caplog):
     with patch('mistaker.randint', return_value=25):
         try:
             lambda_handler({}, {})
+            pytest.fail('The lambda did not throw an error')
         except MultipleOfFiveError:
             with caplog.at_level(logging.INFO):
                 assert ('Oh no 25 is divisible by 5'
