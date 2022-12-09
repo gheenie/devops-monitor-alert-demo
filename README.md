@@ -5,7 +5,14 @@ This exercise is meant to test your understanding of using Cloudwatch logs as a 
 The lambda defined in `mistaker.py` is designed to make mistakes. It has a random number generator that will cause an error if the generated number is a multiple of five. 
 
 You can deploy this useful piece of software by:
-1. Creating a sandbox
+1. Forking and cloning this repo.
+1. Running:
+  ```bash
+  make requirements
+  make dev-setup
+  make run-checks
+  ```
+3. Creating a sandbox
 1. Updating your AWS credentials
 1. Authenticating via `awsume` or other method
 1. And running `./deploy.sh`
