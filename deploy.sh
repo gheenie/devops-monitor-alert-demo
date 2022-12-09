@@ -19,9 +19,6 @@ CW_LOG_GROUP_ARN=arn:aws:logs:${AWS_REGION}:${AWS_ACCOUNT_ID}:log-group:/aws/lam
 CW_POLICY_DOC=$(jq --arg Lg_Arn "${ALL_LOG_GROUPS_ARN}" --arg Cw_Arn "${CW_LOG_GROUP_ARN}" '.Statement[0].Resource |= $Lg_Arn 
 | .Statement[1].Resource |= $Cw_Arn' cloudwatch_policy_template.json)
 
-# Event config
-LAMBDA_ARN=arn:aws:lambda:${AWS_REGION}:${AWS_ACCOUNT_ID}:function:${FUNCTION_NAME}
-
 CLOUDWATCH_POLICY=$(aws iam create-policy --policy-name cloudwatch-policy-${FUNCTION_NAME} \
 --policy-document "${CW_POLICY_DOC}" | jq .Policy.Arn | tr -d '"')
 
@@ -43,15 +40,16 @@ echo 'Creating function'
 FUNCTION=$(aws lambda create-function --function-name ${FUNCTION_NAME} --runtime python3.9 \
 --role ${EXECUTION_ROLE} \
 --package-type Zip --handler mistaker.lambda_handler \
---zip-file function.zip)
+--zip-file fileb://function.zip)
+
+sleep 10
 
 # Rule config
 echo 'Creating rule'
 LAMBDA_ARN=arn:aws:lambda:${AWS_REGION}:${AWS_ACCOUNT_ID}:function:${FUNCTION_NAME}
 RULE_NAME=${FUNCTION_NAME}-SCHEDULE
 SCHEDULE='rate(1 minute)'
-RULE_ARN=$(aws events put-rule --name ${RULE_NAME} --schedule-expression ${SCHEDULE} | jq .RuleArn | tr -d '"')
-
+RULE_ARN=$(aws events put-rule --name ${RULE_NAME} --schedule-expression "${SCHEDULE}" | jq .RuleArn | tr -d '"')
 
 # Add permission to allow function to be invoked by scheduler
 echo 'Adding Rule notification and permission'
