@@ -19,8 +19,7 @@ You can deploy this useful piece of software by:
 
 Then go have a cup of tea, coffee or other refreshment. A few minutes later, you can run these commands:
 ```bash
-FUNCTION_NAME=FUNCTION_NAME=$(aws lambda list-functions | jq '.Functions[0].FunctionName' | tr -d '"')
-aws logs tail /aws/lambda/${FUNCTION_NAME} --region us-east-1
+aws logs tail /aws/lambda/mistaker-test --region us-east-1
 ```
 The application logs activity every minute so eventually you should see something similar to this:
 ```bash

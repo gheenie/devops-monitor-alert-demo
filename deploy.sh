@@ -3,8 +3,7 @@
 set -e
 set -u 
 
-SUFFIX=$(date +%s)
-FUNCTION_NAME=mistaker-${SUFFIX}
+FUNCTION_NAME=mistaker-test
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity | jq .Account | tr -d '"')
 
 # Create the deployment package
