@@ -6,10 +6,6 @@ set -u
 FUNCTION_NAME=mistaker-test
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity | jq .Account | tr -d '"')
 
-# Create the deployment package
-echo 'Creating the deployment package'
-zip function.zip mistaker.py
-
 # Create the IAM policies and role needed by the lambda
 # Update policy documents
 # Cloudwatch log groups
@@ -32,32 +28,6 @@ sleep 10
 echo 'Attaching policy to role'
 aws iam attach-role-policy --policy-arn ${CLOUDWATCH_POLICY} --role-name lambda-execution-role-${FUNCTION_NAME}
 
-sleep 10
-
-# Create function
-echo 'Creating function'
-FUNCTION=$(aws lambda create-function --function-name ${FUNCTION_NAME} --runtime python3.9 \
---role ${EXECUTION_ROLE} \
---package-type Zip --handler mistaker.lambda_handler \
---zip-file fileb://function.zip)
-
-sleep 10
-
-# Rule config
-echo 'Creating rule'
-LAMBDA_ARN=arn:aws:lambda:${AWS_REGION}:${AWS_ACCOUNT_ID}:function:${FUNCTION_NAME}
-RULE_NAME=${FUNCTION_NAME}-SCHEDULE
-SCHEDULE='rate(1 minute)'
-RULE_ARN=$(aws events put-rule --name ${RULE_NAME} --schedule-expression "${SCHEDULE}" | jq .RuleArn | tr -d '"')
-
-# Add permission to allow function to be invoked by scheduler
-echo 'Adding Rule notification and permission'
-PERMISSION=$(aws lambda add-permission --function-name ${FUNCTION_NAME} --principal events.amazonaws.com \
---statement-id rate_invoke --action "lambda:InvokeFunction" \
---source-arn ${RULE_ARN} \
---source-account ${AWS_ACCOUNT_ID})
-
-RULE_TARGETS=$(aws events put-targets --rule ${RULE_NAME} --targets "Id"="${FUNCTION_NAME}","Arn"="${LAMBDA_ARN}")
-
+echo 'Done'
 set +u 
 set +e 

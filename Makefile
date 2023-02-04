@@ -71,7 +71,7 @@ security-test:
 
 ## Run the flake8 code check
 run-flake:
-	$(call execute_in_env, flake8  *.py)
+	$(call execute_in_env, flake8  */*.py)
 
 ## Run the unit tests
 unit-test:
@@ -83,3 +83,12 @@ check-coverage:
 
 ## Run all checks
 run-checks: security-test run-flake unit-test check-coverage
+
+###############################################################################################
+
+## Create the zip file
+create-zip:
+	cd src && zip ../terraform/function.zip mistaker.py
+
+
+all: requirements dev-setup run-checks create-zip
