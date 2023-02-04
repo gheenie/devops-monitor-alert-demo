@@ -1,8 +1,6 @@
-data "aws_caller_identity" "current" {}
-
 resource "aws_lambda_function" "error_lambda" {
     function_name = "mistaker-test"
-    role = "arn:aws:iam::792633432959:role/lambda-execution-role-mistaker-test"
+    role = aws_iam_role.lambda_role.arn
     handler = "mistaker.lambda_handler"
     runtime = "python3.9"
     filename = "function.zip"
