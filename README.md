@@ -2,7 +2,7 @@
 
 This exercise is meant to test your understanding of using Cloudwatch logs as a source of alarms and alerting for potential errors.
 
-The lambda defined in `mistaker.py` is designed to make mistakes. It has a random number generator that will cause errors if the generated number is a multiple of three or eleven. Additionally, it has been configured to take a random amount of time between 300 and 500 milliseconds.
+The lambda defined in `src/mistaker.py` is designed to make mistakes. It has a random number generator that will cause errors if the generated number is a multiple of three or eleven. Additionally, it has been configured to take a random amount of time between 300 and 700 milliseconds.
 
 ## Setting Up
 
