@@ -2,6 +2,7 @@ import pytest
 from unittest.mock import patch
 from src.mistaker import lambda_handler, MultipleOfThreeError
 import logging
+import time
 
 
 def test_lambda_throws_correct_error_if_number_is_multiple_of_three():
@@ -27,3 +28,13 @@ def test_lambda_logs_message_if_number_not_a_multiple_of_three(caplog):
             lambda_handler({}, {})
             assert ('Yawn. 29 is a pretty boring number'
                     in caplog.text)
+
+
+def test_lambda_takes_expected_time():
+    with patch('src.mistaker.randint', return_value=29):
+        for i in range(10):
+            start_time = time.time()
+            lambda_handler({}, {})
+            exec_time = time.time() - start_time
+            assert exec_time > 0.3
+            assert exec_time < 0.7

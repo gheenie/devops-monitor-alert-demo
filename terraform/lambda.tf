@@ -8,6 +8,7 @@ resource "aws_lambda_function" "error_lambda" {
 }
 
 resource "aws_cloudwatch_event_rule" "scheduler" {
+    name_prefix = "mistaker-scheduler-"
     schedule_expression = "rate(1 minute)"
 }
 
