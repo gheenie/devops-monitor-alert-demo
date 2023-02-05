@@ -25,7 +25,7 @@ def lambda_handler(event, context):
         RuntimeError
     """
     number = randint(1, 100)
-    sleep_time = uniform(0.3, 0.5)
+    sleep_time = uniform(0.3, 0.7)
     time.sleep(sleep_time)
     if number % 3 == 0:
         logger.warning(f'Oh no {number} is a multiple of 3')

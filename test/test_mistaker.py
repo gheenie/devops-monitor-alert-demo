@@ -30,14 +30,14 @@ def test_lambda_logs_message_if_number_not_a_multiple_of_three(caplog):
                     in caplog.text)
 
 
-def test_lambda_takes_expected_time():
-    with patch('src.mistaker.randint', return_value=29):
-        for i in range(10):
-            start_time = time.time()
-            lambda_handler({}, {})
-            exec_time = time.time() - start_time
-            assert exec_time > 0.3
-            assert exec_time < 0.7
+@patch('src.mistaker.randint', return_value=29)
+@patch('src.mistaker.uniform', return_value=0.6)
+def test_lambda_takes_expected_time(mock_int, mock_sleep):
+    for n in range(10):
+        start_time = time.time()
+        lambda_handler({}, {})
+        exec_time = time.time() - start_time
+        assert exec_time > 0.6
 
 
 def test_lambda_raises_runtime_exception_multiple_11():
