@@ -18,7 +18,7 @@ You can deploy this very useful piece of software by:
   ```bash
   ./deployment/deploy.sh my.email@email.com
   ```
-    replacing the email address with your own. This script will create a Simple Notification Service (SNS) topic for the alert, which will be forwarded to your email address. You might want to copy the ARN of the topic, which should be output in your shell...
+  replacing the email address with your own. This script will create a Simple Notification Service (SNS) topic for the alert, which will be forwarded to your email address. You might want to copy the ARN of the topic, which should be output in your shell...
 
 4. Check your email for a confirmation message from AWS with the title `AWS Notification - Subscription Confirmation`. When it arrives, click on the confirmation link. 
 1. Then change to the `terraform` directory and run:
