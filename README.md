@@ -53,6 +53,6 @@ To do this, you will need to complete the terraform file `alarm.tf` with resourc
 
 ### Extensions
 - Create different alerts for occurrences of `MultipleOfThreeError` and `RuntimeError`.
-- Create an alert if the duration of code execution is longer than 400 ms.
+- Create an alert if the duration of code execution is longer than 600 ms.
 
 If you have confirmed the SNS subscription, you should start getting emails alerting you to the errors. At that point you might want to `terraform destroy` or destroy your sandbox as you will likely get a _lot_ of emails. It's possible that some parts of the infrastructure will not destroy, but as long as the alarm itself is destroyed, you will not get any further spam.
