@@ -22,12 +22,16 @@ def lambda_handler(event, context):
 
     Raises:
         MultipleOfThreeError
+        RuntimeError
     """
     number = randint(1, 100)
     sleep_time = uniform(0.3, 0.5)
     time.sleep(sleep_time)
     if number % 3 == 0:
-        logger.warning(f'Oh no {number} is divisible by 3')
+        logger.warning(f'Oh no {number} is a multiple of 3')
         raise MultipleOfThreeError
+    elif number % 11 == 0:
+        logger.error('No idea what just happened.')
+        raise RuntimeError('Help!')
     else:
         logger.info(f'Yawn. {number} is a pretty boring number')

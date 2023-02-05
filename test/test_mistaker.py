@@ -18,7 +18,7 @@ def test_lambda_logs_message_if_number_is_a_multiple_of_three(caplog):
             pytest.fail('The lambda did not throw an error')
         except MultipleOfThreeError:
             with caplog.at_level(logging.INFO):
-                assert ('Oh no 21 is divisible by 3'
+                assert ('Oh no 21 is a multiple of 3'
                         in caplog.text)
 
 
@@ -38,3 +38,9 @@ def test_lambda_takes_expected_time():
             exec_time = time.time() - start_time
             assert exec_time > 0.3
             assert exec_time < 0.7
+
+
+def test_lambda_raises_runtime_exception_multiple_11():
+    with patch('src.mistaker.randint', return_value=44):
+        with pytest.raises(RuntimeError):
+            lambda_handler({}, {})

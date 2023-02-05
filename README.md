@@ -43,12 +43,16 @@ Traceback (most recent call last):
     raise MultipleOfThreeError
 ```
 
-## The Task
+## The Tasks
 
-Your task is to create an alerting process that sends you an email whenever one of these "ERROR" log messages appears.
+Your main task task is to create an alerting process that sends you an email whenever one of these "ERROR" log messages appears.
 
 To do this, you will need to complete the terraform file `alarm.tf` with resources to:
 1. [Make a metric filter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_metric_filter) that spots the "ERROR" event.
 1. [Create a Cloudwatch alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) based on the metric filter and which uses the SNS topic created by the script.
+
+### Extensions
+- Create different alerts for occurrences of `MultipleOfThreeError` and `RuntimeError`.
+- Create an alert if the duration of code execution is longer than 400 ms.
 
 If you have confirmed the SNS subscription, you should start getting emails alerting you to the errors. At that point you might want to `terraform destroy` or destroy your sandbox as you will likely get a _lot_ of emails. It's possible that some parts of the infrastructure will not destroy, but as long as the alarm itself is destroyed, you will not get any further spam.
