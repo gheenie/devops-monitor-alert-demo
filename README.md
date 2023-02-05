@@ -4,22 +4,24 @@ This exercise is meant to test your understanding of using Cloudwatch logs as a 
 
 The lambda defined in `mistaker.py` is designed to make mistakes. It has a random number generator that will cause an error if the generated number is a multiple of three. 
 
-You can deploy this useful piece of software by:
+## Setting Up
+
+Please create a sandbox and authenticate via `awsume` or some other method.
+
+You can deploy this very useful piece of software by:
 1. Forking and cloning this repo.
 1. Running:
   ```bash
-  make requirements
-  make dev-setup
-  make run-checks
+  make all
   ```
-3. Creating a sandbox
-1. Updating your AWS credentials
-1. Authenticating via `awsume` or other method
-1. In the shell, run:
+3. In the shell, run:
   ```bash
-  ./deployment/iam.sh
+  ./deployment/deploy.sh my.email@email.com
   ```
-7. Then change to the `terraform` directory and run:
+    replacing the email address with your own. This script will create a Simple Notification Service (SNS) topic for the alert, which will be forwarded to your email address. You might want to copy the ARN of the topic, which should be output in your shell...
+
+4. Check your email for a confirmation message from AWS with the title `AWS Notification - Subscription Confirmation`. When it arrives, click on the confirmation link. 
+1. Then change to the `terraform` directory and run:
   ```bash
   terraform init
   # output...
@@ -28,7 +30,7 @@ You can deploy this useful piece of software by:
   terraform apply
   ```
 
-Then go have a cup of tea, coffee or other refreshment. A few minutes later, you can run these commands:
+Then go have a cup of tea, coffee or other refreshment. A few minutes later, you can run this command:
 ```bash
 aws logs tail /aws/lambda/mistaker-test --region us-east-1
 ```
@@ -41,11 +43,12 @@ Traceback (most recent call last):
     raise MultipleOfThreeError
 ```
 
+## The Task
+
 Your task is to create an alerting process that sends you an email whenever one of these "ERROR" log messages appears.
 
 To do this, you will need to complete the terraform file `alarm.tf` with resources to:
 1. [Make a metric filter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_metric_filter) that spots the "ERROR" event.
-1. [Create an SNS topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) that [includes your email address as a subscriber](https://docs.aws.amazon.com/sns/latest/dg/sns-email-notifications.html).
-1. [Create a Cloudwatch alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) based on the metric filter and which uses the SNS topic.
+1. [Create a Cloudwatch alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) based on the metric filter and which uses the SNS topic created by the script.
 
-You should be able to run the script to deploy these items. You should then receive an email request to subscribe to the SNS topic. If you accept, then sometime later, you should start getting emails alerting you to the errors. At that point you might want to `terraform destroy` or destroy your sandbox as you will likely get a _lot_ of emails. 
+If you have confirmed the SNS subscription, you should start getting emails alerting you to the errors. At that point you might want to `terraform destroy` or destroy your sandbox as you will likely get a _lot_ of emails. It's possible that some parts of the infrastructure will not destroy, but as long as the alarm itself is destroyed, you will not get any further spam.
