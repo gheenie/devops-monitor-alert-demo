@@ -15,7 +15,7 @@ class MultipleOfThreeError(Exception):
 def lambda_handler(event, context):
     """Runs randomly erroring process on a time delay.
 
-    The process will be delayed between 300 and 500 milliseconds.
+    The process will be delayed between 300 and 700 milliseconds.
 
     Returns:
         None
