@@ -6,7 +6,7 @@ The lambda defined in `src/mistaker.py` is designed to make mistakes. It has a r
 
 ## Setting Up
 
-Please create a sandbox and authenticate via `awsume` or some other method.
+Please create a sandbox and configure your AWS credentials in the usual way.
 
 You can deploy this very useful piece of software by:
 1. Forking and cloning this repo.
@@ -55,4 +55,4 @@ To do this, you will need to complete the terraform file `alarm.tf` with resourc
 - Create different alerts for occurrences of `MultipleOfThreeError` and `RuntimeError`.
 - Create an alert if the duration of code execution is longer than 600 ms.
 
-If you have confirmed the SNS subscription, you should start getting emails alerting you to the errors. At that point you might want to `terraform destroy` or destroy your sandbox as you will likely get a _lot_ of emails. It's possible that some parts of the infrastructure will not destroy, but as long as the alarm itself is destroyed, you will not get any further spam.
+If you have confirmed the SNS subscription, you should start getting emails alerting you to the errors. At some point you might want to `terraform destroy` or destroy your sandbox as you will likely get a _lot_ of emails. It's possible that some parts of the infrastructure (e.g. IAM...) will not destroy, but as long as the alarm itself is destroyed, you will not get any further spam.
