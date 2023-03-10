@@ -86,9 +86,4 @@ run-checks: security-test run-flake unit-test check-coverage
 
 ###############################################################################################
 
-## Create the zip file
-create-zip:
-	cd src && zip ../terraform/function.zip mistaker.py
-
-
-all: requirements dev-setup run-checks create-zip
+all: requirements dev-setup run-checks
