@@ -4,7 +4,6 @@ resource "aws_lambda_function" "error_lambda" {
     handler = "mistaker.lambda_handler"
     runtime = "python3.9"
     filename = "function.zip"
-    source_code_hash = filebase64sha256("function.zip")
 }
 
 resource "aws_cloudwatch_event_rule" "scheduler" {
