@@ -18,9 +18,9 @@ resource "aws_cloudwatch_metric_alarm" "alert_errors" {
     alarm_name                = "AlertErrors"
     statistic                 = "Sum"
     period                    = "60"
+    evaluation_periods        = "1"
     comparison_operator       = "GreaterThanOrEqualToThreshold"
     threshold                 = "1"
-    evaluation_periods        = "1"
 
     # After running deploy.sh, copy SNS topic ARN here.
     alarm_actions             = ["arn:aws:sns:us-east-1:921693990905:test-error-alerts"]
@@ -46,9 +46,9 @@ resource "aws_cloudwatch_metric_alarm" "alert_multipleofthree_errors" {
     alarm_name                = "AlertMultipleOfThreeErrors"
     statistic                 = "Sum"
     period                    = "60"
+    evaluation_periods        = "1"
     comparison_operator       = "GreaterThanOrEqualToThreshold"
     threshold                 = "1"
-    evaluation_periods        = "1"
 
     # After running deploy.sh, copy SNS topic ARN here.
     alarm_actions             = ["arn:aws:sns:us-east-1:921693990905:test-error-alerts"]
@@ -74,9 +74,28 @@ resource "aws_cloudwatch_metric_alarm" "alert_runtime_errors" {
     alarm_name                = "AlertRuntimeErrors"
     statistic                 = "Sum"
     period                    = "60"
+    evaluation_periods        = "1"
     comparison_operator       = "GreaterThanOrEqualToThreshold"
     threshold                 = "1"
+
+    # After running deploy.sh, copy SNS topic ARN here.
+    alarm_actions             = ["arn:aws:sns:us-east-1:921693990905:test-error-alerts"]
+}
+
+resource "aws_cloudwatch_metric_alarm" "alert_execution_time_exceeded" {
+    dimensions = {
+        "FunctionName" = aws_lambda_function.error_lambda.function_name
+    }
+    
+    namespace                 = "AWS/Lambda"
+    metric_name               = "Duration"
+
+    alarm_name                = "AlertExecutionTimeExceeded"
+    statistic                 = "Maximum"
+    period                    = "60"
     evaluation_periods        = "1"
+    comparison_operator       = "GreaterThanOrEqualToThreshold"
+    threshold                 = "600"
 
     # After running deploy.sh, copy SNS topic ARN here.
     alarm_actions             = ["arn:aws:sns:us-east-1:921693990905:test-error-alerts"]
