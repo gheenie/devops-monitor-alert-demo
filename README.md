@@ -51,6 +51,17 @@ To do this, you will need to complete the terraform file `alarm.tf` with resourc
 1. [Make a metric filter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_metric_filter) that spots the "ERROR" event.
 1. [Create a Cloudwatch alarm](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) based on the metric filter and which uses the SNS topic created by the script.
 
+Recap:
+1. Create a simple Cloudwatch alert
+- Create a metric filter on the log group
+- Specify a filter pattern
+- Specify names for the filter, the metric group and the metric
+- Add a numerical value (and if necessary, units) to be associated with the metric
+2. Create an alarm
+- Select the metric you just made (it may take a while to show up)
+- Specify the metric conditions (the statistic, checking period, threshold etc)
+- Specify an SNS Topic (must exist and have subscribers)
+
 ### Extensions
 - Create different alerts for occurrences of `MultipleOfThreeError` and `RuntimeError`.
 - Create an alert if the duration of code execution is longer than 600 ms.
